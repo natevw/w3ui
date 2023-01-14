@@ -47,7 +47,10 @@ export function KeyringProvider ({ children, servicePrincipal, connection }: Key
 
   const getAgent = async (): Promise<Agent> => {
     if (agent == null) {
-      const a = await createAgent({ servicePrincipal, connection })
+      const a = await createAgent({
+        servicePrincipal, connection,
+        url: connection.channel.url   // WORKAROUND: https://github.com/web3-storage/w3protocol/issues/344
+      })
       setAgent(a)
       setIssuer(a.issuer)
       setSpace(getCurrentSpace(a))
